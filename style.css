@@ -1,0 +1,83 @@
+body {
+  margin: 10;
+  padding: 0;
+  font-size: 11px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.with-50 {
+  width: 50%;
+  border: 1px solid black;
+  display: block;
+}
+
+.f-l {
+  float: left;
+}
+
+.f-r {
+  float: right;
+}
+
+.clearfix:after {
+  content: "";
+  visibility: hidden;
+  display: block;
+  height: 0;
+  clear: both;
+}
+
+.b-l-0 {border-left: 0px;}
+
+img {
+  padding: 10px;
+  /* max-height: 57px; */
+  padding-bottom: 0px;
+  max-width: 115px;
+}
+
+h5 {
+  margin-top: 1px;
+  position: relative;
+  top: -23px;
+  margin-bottom: 5px;
+  text-align: center;
+  font-size: 18px;
+}
+
+.m-b {
+    margin-bottom: 15px!important;
+}
+
+.box {
+    border: 2px solid black;
+    margin: 5px;
+    padding: 0px;
+}
+.box span.title {
+    background: #808080;
+    color: white;
+    width: 100%;
+    text-align: center;
+    display: block;
+    padding: 4px;
+    margin: 0px;
+    border-bottom: 2px solid black;
+}
+.box ul {
+    list-style: none;
+    padding: 5px 10px;
+    margin: 0px;
+    font-weight: bold;
+}
+.box ul li {
+    margin-bottom: 4px;
+}
+.signature {
+  padding:10px;
+  margin-bottom: 27px;
+}
+p {padding: 10px;margin:0px;}
