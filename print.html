@@ -15,12 +15,27 @@
         '<style>'+
             'body {'+
               'margin: 00;'+
-              'padding: 0;'+
-              'font-size: 11px;'+
+              'padding: 5px;'+
+              'font-size: 14px;'+
+              'font-family: calibri;'+
             '}'+
             
             '* {'+
               'box-sizing: border-box;'+
+            '}'+
+
+            '@print {'+
+                '@page :footer {'+
+                    'display: none'+
+                '}'+
+  
+                '@page :header {'+
+                    'display: none'+
+                '}'+
+            '}'+
+            '@page {'+
+                'size: auto;'+
+                'margin: 0mm;'+
             '}'+
             
             '.with-50 {'+
@@ -55,7 +70,7 @@
             
             'h5 {'+
               'margin-top: 1px;'+
-              'margin-bottom:50px;'+
+              'margin-bottom:10px;'+
               'position: relative;'+
               'top: -23px;'+
               'text-align: center;'+
@@ -63,24 +78,26 @@
             '}'+
             
             '.m-b {'+
-                'margin-bottom: 15px!important;'+
+                'margin-bottom: 8px!important;'+
             '}'+
             
             '.box {'+
-                'border: 2px solid black;'+
+                'border: 1px solid black;'+
                 'margin: 5px;'+
                 'padding: 0px;'+
             '}'+
             '.title {'+
                 'background: #808080;'+
                 '-webkit-print-color-adjust: exact !important;'+
+                '-moz-print-color-adjust: exact !important;'+
                 'color: white;'+
                 'width: 100%;'+
                 'text-align: center;'+
                 'display: block;'+
-                'padding: 4px;'+
+                'padding: 2px;'+
                 'margin: 0px;'+
-                'border-bottom: 2px solid black;'+
+                'font-weight: bold;'+
+                'border-bottom: 1px solid black;'+
             '}'+
             '.box ul {'+
                 'list-style: none;'+
@@ -89,16 +106,17 @@
                 'font-weight: bold;'+
             '}'+
             '.box ul li {'+
-                'margin-bottom: 4px;'+
+                'margin-bottom: 0px;'+
             '}'+
             '.signature {'+
               'padding:10px;'+
               'margin-bottom: 27px;'+
             '}'+
-            'p {padding: 10px;margin:0px;}'+
+            'p {font-size:10px;padding: 10px;margin:0px;}'+
         '</style>'+
 
-        '<br><br><br><div class="with-50 f-l">'+
+
+'<div class="with-50 f-l">'+
           '<div class="clearfix">'+
             '<img src="fpay.png" class="f-l" alt="">'+
             '<img src="rezke.png" class="f-r" alt="">'+
@@ -112,7 +130,6 @@
             '<ul>'+
               '<li>Agence : </li>'+
               '<li>Ville : </li>'+
-              '<li>N° de Transaction : </li>'+
             '</ul>'+
           '</div><!-- END BOX -->'+
     
@@ -132,6 +149,64 @@
           '<div class="box m-b">'+
             '<span class="title">Opération</span>'+
             '<ul>'+
+              '<li>N° de Transaction : </li>'+
+              '<li>Date opération : </li>'+
+              '<li>Date de valeur :</li>'+
+              '<li>Montant déposé :</li>'+
+              '<li>Frais de service : 0 DH</li>'+
+            '</ul>'+
+          '</div><!-- END BOX -->'+
+    
+          '<!-- Signature -->'+
+          '<div class="clearfix signature">'+
+            '<div class="f-l">Signature Client</div>'+
+            '<div class="f-r">Signature Agence</div>'+
+          '</div>'+
+    
+          '<!-- Signature -->'+
+          '<p>'+
+            'En signant ce reçu, vous adhérez aux conditions Générales du Service Rezk-e, disponibles dans les points de '+
+            'vente agréés Rezk-e et sur notre site : <a href="#">www.fpaygroup.com</a> SA au capital de 15.000.000 dhs - 3,'+
+            'Rue Berne et Bd Zerktouni 1er etage, Casablanca. Tel : <b>05 22 43 45 70</b>'+
+          '</p>'+
+    
+        '</div>'+
+
+
+        '<div class="with-50 f-r">'+
+          '<div class="clearfix">'+
+            '<img src="fpay.png" class="f-l" alt="">'+
+            '<img src="rezke.png" class="f-r" alt="">'+
+          '</div>'+
+          '<h5>Reçu de dépôt</h5>'+
+    
+          '<!--  ====== Informations Agence ====== -->'+
+    
+          '<div class="box m-b">'+
+            '<span class="title">Informations Agence</span>'+
+            '<ul>'+
+              '<li>Agence : </li>'+
+              '<li>Ville : </li>'+
+            '</ul>'+
+          '</div><!-- END BOX -->'+
+    
+          '<!--  ====== Informations Clients ====== -->'+
+    
+          '<div class="box m-b">'+
+            '<span class="title">Informations Clients</span>'+
+            '<ul>'+
+              '<li>Teneur du compte : </li>'+
+              '<li>N° ID : </li>'+
+              '<li>Tél : </li>'+
+            '</ul>'+
+          '</div><!-- END BOX -->'+
+    
+          '<!--  ====== Informations Clients ====== -->'+
+    
+          '<div class="box m-b">'+
+            '<span class="title">Opération</span>'+
+            '<ul>'+
+              '<li>N° de Transaction : </li>'+
               '<li>Date opération : </li>'+
               '<li>Date de valeur :</li>'+
               '<li>Montant déposé :</li>'+
