@@ -5,228 +5,263 @@
   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
   <link rel="stylesheet" href="style.css">
   <script type="text/javascript">
+    $(document).ready(function() {
+
+      // Set Date
+      var date = new Date();
+
+      var day = date.getDate();
+      var month = date.getMonth() + 1;
+      var year = date.getFullYear();
+
+      if (month < 10) month = "0" + month;
+      if (day < 10) day = "0" + day;
+
+      var today = year + "-" + month + "-" + day;
+      document.getElementById('operation-date').value = today;
+      document.getElementById('operation-value').value = today;
+    });
+    
     $("#btnPrint").live("click", function () {
+
+      // Informations Agence
+      var operation = $('#operation').val();
+      var agency = $('#agency').val();
+      var city = $('#city').val();
+
+      // Informations Clients
+      var accountHolder = $('#account-holder').val();
+      var cin = $('#cin').val();
+      var phone = $('#phone').val();
+
+      // Opération
+      var idTransaction = $('#id-transaction').val();
+      var operationDate = $('#operation-date').val();
+      var valueDate = $('#operation-value').val();
+      var amount = $('#amount').val();
+      var fees = 0;
+
       var divContents = $("#text").html();
       var printWindow = window.open('', '', 'height=600,width=1200');
       printWindow.document.write('<html><head><title>Html to PDF</title>');
       printWindow.document.write('</head><body >');
       printWindow.document.write(
-        
-        '<style>'+
-            'body {'+
-              'margin: 00;'+
-              'padding: 5px;'+
-              'font-size: 14px;'+
-              'font-family: calibri;'+
-            '}'+
-            
-            '* {'+
-              'box-sizing: border-box;'+
-            '}'+
 
-            '@print {'+
-                '@page :footer {'+
-                    'display: none'+
-                '}'+
-  
-                '@page :header {'+
-                    'display: none'+
-                '}'+
-            '}'+
-            '@page {'+
-                'size: auto;'+
-                'margin: 0mm;'+
-            '}'+
-            
-            '.with-50 {'+
-              'width: 50%;'+
-              'border: 1px solid black;'+
-              'display: block;'+
-            '}'+
-            
-            '.f-l {'+
-              'float: left;'+
-            '}'+
-            
-            '.f-r {'+
-              'float: right;'+
-            '}'+
-            
-            '.clearfix:after {'+
-              'content: "";'+
-              'visibility: hidden;'+
-              'display: block;'+
-              'height: 0;'+
-              'clear: both;'+
-            '}'+
-            
-            '.b-l-0 {border-left: 0px;}'+
-            
-            'img {'+
-              'padding: 10px;'+
-              'max-width: 115px;'+
-              'padding-bottom: 0px;'+
-            '}'+
-            
-            'h5 {'+
-              'margin-top: 1px;'+
-              'margin-bottom:10px;'+
-              'position: relative;'+
-              'top: -23px;'+
-              'text-align: center;'+
-              'font-size: 18px;'+
-            '}'+
-            
-            '.m-b {'+
-                'margin-bottom: 8px!important;'+
-            '}'+
-            
-            '.box {'+
-                'border: 1px solid black;'+
-                'margin: 5px;'+
-                'padding: 0px;'+
-            '}'+
-            '.title {'+
-                'background: #808080;'+
-                '-webkit-print-color-adjust: exact !important;'+
-                '-moz-print-color-adjust: exact !important;'+
-                'color: white;'+
-                'width: 100%;'+
-                'text-align: center;'+
-                'display: block;'+
-                'padding: 2px;'+
-                'margin: 0px;'+
-                'font-weight: bold;'+
-                'border-bottom: 1px solid black;'+
-            '}'+
-            '.box ul {'+
-                'list-style: none;'+
-                'padding: 5px 10px;'+
-                'margin: 0px;'+
-                'font-weight: bold;'+
-            '}'+
-            '.box ul li {'+
-                'margin-bottom: 0px;'+
-            '}'+
-            '.signature {'+
-              'padding:10px;'+
-              'margin-bottom: 27px;'+
-            '}'+
-            'p {font-size:10px;padding: 10px;margin:0px;}'+
-        '</style>'+
+        '<style>' +
+        'body {' +
+        'margin: 00;' +
+        'padding: 5px;' +
+        'font-size: 14px;' +
+        'font-family: calibri;' +
+        '}' +
 
+        '* {' +
+        'box-sizing: border-box;' +
+        '}' +
 
-'<div class="with-50 f-l">'+
-          '<div class="clearfix">'+
-            '<img src="fpay.png" class="f-l" alt="">'+
-            '<img src="rezke.png" class="f-r" alt="">'+
-          '</div>'+
-          '<h5>Reçu de dépôt</h5>'+
-    
-          '<!--  ====== Informations Agence ====== -->'+
-    
-          '<div class="box m-b">'+
-            '<span class="title">Informations Agence</span>'+
-            '<ul>'+
-              '<li>Agence : </li>'+
-              '<li>Ville : </li>'+
-            '</ul>'+
-          '</div><!-- END BOX -->'+
-    
-          '<!--  ====== Informations Clients ====== -->'+
-    
-          '<div class="box m-b">'+
-            '<span class="title">Informations Clients</span>'+
-            '<ul>'+
-              '<li>Teneur du compte : </li>'+
-              '<li>N° ID : </li>'+
-              '<li>Tél : </li>'+
-            '</ul>'+
-          '</div><!-- END BOX -->'+
-    
-          '<!--  ====== Informations Clients ====== -->'+
-    
-          '<div class="box m-b">'+
-            '<span class="title">Opération</span>'+
-            '<ul>'+
-              '<li>N° de Transaction : </li>'+
-              '<li>Date opération : </li>'+
-              '<li>Date de valeur :</li>'+
-              '<li>Montant déposé :</li>'+
-              '<li>Frais de service : 0 DH</li>'+
-            '</ul>'+
-          '</div><!-- END BOX -->'+
-    
-          '<!-- Signature -->'+
-          '<div class="clearfix signature">'+
-            '<div class="f-l">Signature Client</div>'+
-            '<div class="f-r">Signature Agence</div>'+
-          '</div>'+
-    
-          '<!-- Signature -->'+
-          '<p>'+
-            'En signant ce reçu, vous adhérez aux conditions Générales du Service Rezk-e, disponibles dans les points de '+
-            'vente agréés Rezk-e et sur notre site : <a href="#">www.fpaygroup.com</a> SA au capital de 15.000.000 dhs - 3,'+
-            'Rue Berne et Bd Zerktouni 1er etage, Casablanca. Tel : <b>05 22 43 45 70</b>'+
-          '</p>'+
-    
-        '</div>'+
+        '@print {' +
+        '@page :footer {' +
+        'display: none' +
+        '}' +
 
+        '@page :header {' +
+        'display: none' +
+        '}' +
+        '}' +
+        '@page {' +
+        'size: auto;' +
+        'margin: 0mm;' +
+        '}' +
 
-        '<div class="with-50 f-r">'+
-          '<div class="clearfix">'+
-            '<img src="fpay.png" class="f-l" alt="">'+
-            '<img src="rezke.png" class="f-r" alt="">'+
-          '</div>'+
-          '<h5>Reçu de dépôt</h5>'+
-    
-          '<!--  ====== Informations Agence ====== -->'+
-    
-          '<div class="box m-b">'+
-            '<span class="title">Informations Agence</span>'+
-            '<ul>'+
-              '<li>Agence : </li>'+
-              '<li>Ville : </li>'+
-            '</ul>'+
-          '</div><!-- END BOX -->'+
-    
-          '<!--  ====== Informations Clients ====== -->'+
-    
-          '<div class="box m-b">'+
-            '<span class="title">Informations Clients</span>'+
-            '<ul>'+
-              '<li>Teneur du compte : </li>'+
-              '<li>N° ID : </li>'+
-              '<li>Tél : </li>'+
-            '</ul>'+
-          '</div><!-- END BOX -->'+
-    
-          '<!--  ====== Informations Clients ====== -->'+
-    
-          '<div class="box m-b">'+
-            '<span class="title">Opération</span>'+
-            '<ul>'+
-              '<li>N° de Transaction : </li>'+
-              '<li>Date opération : </li>'+
-              '<li>Date de valeur :</li>'+
-              '<li>Montant déposé :</li>'+
-              '<li>Frais de service : 0 DH</li>'+
-            '</ul>'+
-          '</div><!-- END BOX -->'+
-    
-          '<!-- Signature -->'+
-          '<div class="clearfix signature">'+
-            '<div class="f-l">Signature Client</div>'+
-            '<div class="f-r">Signature Agence</div>'+
-          '</div>'+
-    
-          '<!-- Signature -->'+
-          '<p>'+
-            'En signant ce reçu, vous adhérez aux conditions Générales du Service Rezk-e, disponibles dans les points de'+
-            'vente agréés Rezk-e et sur notre site : <a href="#">www.fpaygroup.com</a> SA au capital de 15.000.000 dhs - 3,'+
-            'Rue Berne et Bd Zerktouni 1er etage, Casablanca. Tel : <b>05 22 43 45 70</b>'+
-          '</p>'+
-    
+        '.with-50 {' +
+        'width: 50%;' +
+        'border: 1px solid black;' +
+        'display: block;' +
+        '}' +
+
+        '.f-l {' +
+        'float: left;' +
+        '}' +
+
+        '.f-r {' +
+        'float: right;' +
+        '}' +
+
+        '.clearfix:after {' +
+        'content: "";' +
+        'visibility: hidden;' +
+        'display: block;' +
+        'height: 0;' +
+        'clear: both;' +
+        '}' +
+
+        '.b-l-0 {border-left: 0px;}' +
+
+        'img {' +
+        'padding: 10px;' +
+        'max-width: 115px;' +
+        'padding-bottom: 0px;' +
+        '}' +
+
+        'h5 {' +
+        'margin-top: 1px;' +
+        'margin-bottom:10px;' +
+        'position: relative;' +
+        'top: -23px;' +
+        'text-align: center;' +
+        'font-size: 18px;' +
+        '}' +
+
+        '.m-b {' +
+        'margin-bottom: 8px!important;' +
+        '}' +
+
+        '.box {' +
+        'border: 1px solid black;' +
+        'margin: 5px;' +
+        'padding: 0px;' +
+        '}' +
+        '.title {' +
+        'background: #808080;' +
+        '-webkit-print-color-adjust: exact !important;' +
+        '-moz-print-color-adjust: exact !important;' +
+        'color: white;' +
+        'width: 100%;' +
+        'text-align: center;' +
+        'display: block;' +
+        'padding: 2px;' +
+        'margin: 0px;' +
+        'font-weight: bold;' +
+        'border-bottom: 1px solid black;' +
+        '}' +
+        '.box ul {' +
+        'list-style: none;' +
+        'padding: 5px 10px;' +
+        'margin: 0px;' +
+        '}' +
+        '.box ul li {' +
+        'margin-bottom: 0px;' +
+        '}' +
+        '.signature {' +
+        'padding:10px;' +
+        'margin-bottom: 27px;' +
+        '}' +
+        'p {font-size:10px;padding: 10px;margin:0px;}' +
+        '</style>' +
+
+        '<div class="clearfix">' +
+
+        '<div class="with-50 f-l">' +
+        '<div class="clearfix">' +
+        '<img src="fpay.png" class="f-l" alt="">' +
+        '<img src="rezke.png" class="f-r" alt="">' +
+        '</div>' +
+        '<h5>Reçu de dépôt</h5>' +
+
+        '<!--  ====== Informations Agence ====== -->' +
+
+        '<div class="box m-b">' +
+        '<span class="title">Informations Agence</span>' +
+        '<ul>' +
+        '<li><b>Agence : </b>'+agency+'</li>' +
+        '<li><b>Ville : </b>'+city+'</li>' +
+        '</ul>' +
+        '</div><!-- END BOX -->' +
+
+        '<!--  ====== Informations Clients ====== -->' +
+
+        '<div class="box m-b">' +
+        '<span class="title">Informations Clients</span>' +
+        '<ul>' +
+        '<li><b>Teneur du compte : </b>'+accountHolder+'</li>' +
+        '<li><b>N° ID : </b>'+cin+'</li>' +
+        '<li><b>Tél : </b>'+phone+'</li>' +
+        '</ul>' +
+        '</div><!-- END BOX -->' +
+
+        '<!--  ====== Informations Clients ====== -->' +
+
+        '<div class="box m-b">' +
+        '<span class="title">Opération</span>' +
+        '<ul>' +
+        '<li><b>N° de Transaction :</b> '+idTransaction+'</li>' +
+        '<li><b>Date opération : </b>'+operationDate+'</li>' +
+        '<li><b>Date de valeur : </b>'+valueDate+'</li>' +
+        '<li><b>Montant déposé : </b>'+amount+' DH</li>' +
+        '<li><b>Frais de service : </b>'+fees+' DH</li>' +
+        '</ul>' +
+        '</div><!-- END BOX -->' +
+
+        '<!-- Signature -->' +
+        '<div class="clearfix signature">' +
+        '<div class="f-l">Signature Client</div>' +
+        '<div class="f-r">Signature Agence</div>' +
+        '</div>' +
+
+        '<!-- Signature -->' +
+        '<p>' +
+        'En signant ce reçu, vous adhérez aux conditions Générales du Service Rezk-e, disponibles dans les points de ' +
+        'vente agréés Rezk-e et sur notre site : <a href="#">www.fpaygroup.com</a> SA au capital de 15.000.000 dhs - 3,' +
+        'Rue Berne et Bd Zerktouni 1er etage, Casablanca. Tel : <b>05 22 43 45 70</b>' +
+        '</p>' +
+
+        '</div><!-- End left block -->' +
+
+        '<div class="with-50 f-r">' +
+        '<div class="clearfix">' +
+        '<img src="fpay.png" class="f-l" alt="">' +
+        '<img src="rezke.png" class="f-r" alt="">' +
+        '</div>' +
+        '<h5>Reçu de dépôt</h5>' +
+
+        '<!--  ====== Informations Agence ====== -->' +
+
+        '<div class="box m-b">' +
+        '<span class="title">Informations Agence</span>' +
+        '<ul>' +
+        '<li>Agence : </li>' +
+        '<li>Ville : </li>' +
+        '</ul>' +
+        '</div><!-- END BOX -->' +
+
+        '<!--  ====== Informations Clients ====== -->' +
+
+        '<div class="box m-b">' +
+        '<span class="title">Informations Clients</span>' +
+        '<ul>' +
+        '<li>Teneur du compte : </li>' +
+        '<li>N° ID : </li>' +
+        '<li>Tél : </li>' +
+        '</ul>' +
+        '</div><!-- END BOX -->' +
+
+        '<!--  ====== Informations Clients ====== -->' +
+
+        '<div class="box m-b">' +
+        '<span class="title">Opération</span>' +
+        '<ul>' +
+        '<li>N° de Transaction : </li>' +
+        '<li>Date opération : </li>' +
+        '<li>Date de valeur :</li>' +
+        '<li>Montant déposé :</li>' +
+        '<li>Frais de service : 0 DH</li>' +
+        '</ul>' +
+        '</div><!-- END BOX -->' +
+
+        '<!-- Signature -->' +
+        '<div class="clearfix signature">' +
+        '<div class="f-l">Signature Client</div>' +
+        '<div class="f-r">Signature Agence</div>' +
+        '</div>' +
+
+        '<!-- Signature -->' +
+        '<p>' +
+        'En signant ce reçu, vous adhérez aux conditions Générales du Service Rezk-e, disponibles dans les points de' +
+        'vente agréés Rezk-e et sur notre site : <a href="#">www.fpaygroup.com</a> SA au capital de 15.000.000 dhs - 3,' +
+        'Rue Berne et Bd Zerktouni 1er etage, Casablanca. Tel : <b>05 22 43 45 70</b>' +
+        '</p>' +
+
+        '</div><!-- End right block -->' +
         '</div>'
 
 
@@ -236,130 +271,104 @@
       printWindow.print();
     });
   </script>
+
 </head>
 
 <body>
 
-  <div class="clearfix">
-    <div class="with-50 f-l">
-      <div class="clearfix">
-        <img src="fpay.png" class="f-l" alt="">
-        <img src="rezke.png" class="f-r" alt="">
-      </div>
-      <h5>Reçu de dépôt</h5>
+  <!-- ==================
+      Formulaire
+  ======================= -->
 
-      <!--  ====== Informations Agence ====== -->
+  <div class="container">
+    <form id="form1">
+      <div class="row">
+        
+        <!-- ======== Informations Agence ======== -->
+        <div class="col-md-12">
+          <h2>Informations Agence : </h2>
+          <div class="wrapper">
+            <div class="form-group">
+              <label type="text" for="operation">Type d'opération<i>*</i> :</label>
+              <select id="operation" required="required">
+                <option value="cashin">Cashin</option>
+                <option value="cashout">Cashout</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label type="text" for="agency">Agence<i>*</i> :</label>
+              <select id="agency" required="required">
+                <option value="Agence-1">Agence - 2 Mars</option>
+                <option value="Agence-1">Agence - Ain Sebaa</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label type="text" for="city">Ville<i>*</i> :</label>
+              <select id="city" required="required">
+                <script language="javascript">
+                  var states = new Array("Agadir", "Al Hoceima", "Azilal", "Beni Mellal", "Ben Slimane", "Boulemane",
+                    "Casablanca", "Chaouen", "El Jadida", "El Kelaa des Sraghna", "Er Rachidia", "Essaouira", "Fes",
+                    "Figuig", "Guelmim", "Ifrane", "Kenitra", "Khemisset", "Khenifra", "Khouribga", "Laayoune",
+                    "Larache", "Marrakech", "Meknes", "Nador", "Ouarzazate", "Oujda", "Rabat-Sale", "Safi", "Settat",
+                    "Sidi Kacem", "Tangier", "Tan-Tan", "Taounate", "Taroudannt", "Tata", "Taza", "Tetouan", "Tiznit");
+                  for (var hi = 0; hi < states.length; hi++)
+                    document.write("<option value=\"" + states[hi] + "\">" + states[hi] + "</option>");
+                </script>
+              </select>
+            </div>
+          </div>
+        </div>
 
-      <div class="box m-b">
-        <span class="title">Informations Agence</span>
-        <ul>
-          <li>Agence : </li>
-          <li>Ville : </li>
-          <li>N° de Transaction : </li>
-        </ul>
-      </div><!-- END BOX -->
+        <!-- ======== Informations Clients ======== -->
+        <div class="col-md-12">
+          <h2>Informations Clients : </h2>
+          <div class="wrapper">
+            <div class="form-group">
+              <label type="text" for="account-holder">Teneur du compte<i>*</i> :</label>
+              <input type="text" id="account-holder" class="form-control" required="required" value="mahdi hanafi">
+            </div>
+            <div class="form-group">
+              <label type="text" for="cin">N° ID<i>*</i> :</label>
+              <input type="text" id="cin" class="form-control" required="required" value="BB56456">
+            </div>
+            <div class="form-group">
+              <label type="text" for="phone">N° de téléphone<i>*</i> :</label>
+              <input type="text" id="phone" class="form-control" required="required" value="0656130495">
+            </div>
+          </div>
+        </div>
 
-      <!--  ====== Informations Clients ====== -->
+        <!-- ======== Opération ======== -->
+        <div class="col-md-12">
+          <h2>Opération : </h2>
+          <div class="wrapper">
+            <div class="form-group">
+              <label type="text" for="id-transaction">N° de transaction<i>*</i> :</label>
+              <input type="text" id="id-transaction" class="form-control" required="required" value="23456">
+            </div>
+            <div class="form-group">
+              <label type="text" for="operation-date">Date opération<i>*</i> : </label>
+              <input type="date" id="operation-date" class="form-control theDate" required="required" value="05/06/2022">
+            </div>
+            <div class="form-group">
+              <label type="text" for="operation-value">Date de valeur<i>*</i> : </label>
+              <input type="date" id="operation-value" class="form-control theDate" required="required">
+            </div>
+            <div class="form-group">
+              <label type="text" for="amount">Montant déposé<i>*</i> :</label>
+              <input type="text" id="amount" class="form-control" required="required" value="15">
+            </div>
+          </div>
+        </div>
 
-      <div class="box m-b">
-        <span class="title">Informations Clients</span>
-        <ul>
-          <li>Teneur du compte : </li>
-          <li>N° ID : </li>
-          <li>Tél : </li>
-        </ul>
-      </div><!-- END BOX -->
+      </div><!-- End row -->
+      
+      <input type="button" class="button" value="Imprimer le reçu" id="btnPrint" />
 
-      <!--  ====== Informations Clients ====== -->
+    </form><!-- End form -->
 
-      <div class="box m-b">
-        <span class="title">Opération</span>
-        <ul>
-          <li>Date opération : </li>
-          <li>Date de valeur :</li>
-          <li>Montant déposé :</li>
-          <li>Frais de service : 0 DH</li>
-        </ul>
-      </div><!-- END BOX -->
-
-      <!-- Signature -->
-      <div class="clearfix signature">
-        <div class="f-l">Signature Client</div>
-        <div class="f-r">Signature Agence</div>
-      </div>
-
-      <!-- Signature -->
-      <p>
-        En signant ce reçu, vous adhérez aux conditions Générales du Service Rezk-e, disponibles dans les points de
-        vente agréés Rezk-e et sur notre site : <a href="#">www.fpaygroup.com</a> SA au capital de 15.000.000 dhs - 3,
-        Rue Berne et Bd Zerktouni 1er etage, Casablanca. Tel : <b>05 22 43 45 70</b>
-      </p>
-
-    </div>
-    <div class="with-50 f-r b-l-0">
-      <div class="clearfix">
-        <img src="fpay.png" class="f-l" alt="">
-        <img src="rezke.png" class="f-r" alt="">
-      </div>
-      <h5>Reçu de dépôt</h5>
-
-      <!--  ====== Informations Agence ====== -->
-
-      <div class="box m-b">
-        <span class="title">Informations Agence</span>
-        <ul>
-          <li>Agence : </li>
-          <li>Ville : </li>
-          <li>N° de Transaction : </li>
-        </ul>
-      </div><!-- END BOX -->
-
-      <!--  ====== Informations Clients ====== -->
-
-      <div class="box m-b">
-        <span class="title">Informations Clients</span>
-        <ul>
-          <li>Teneur du compte : </li>
-          <li>N° ID : </li>
-          <li>Tél : </li>
-        </ul>
-      </div><!-- END BOX -->
-
-      <!--  ====== Informations Clients ====== -->
-
-      <div class="box m-b">
-        <span class="title">Opération</span>
-        <ul>
-          <li>Date opération : </li>
-          <li>Date de valeur :</li>
-          <li>Montant déposé :</li>
-          <li>Frais de service : 0 DH</li>
-        </ul>
-      </div><!-- END BOX -->
-
-      <!-- Signature -->
-      <div class="clearfix signature">
-        <div class="f-l">Signature Client</div>
-        <div class="f-r">Signature Agence</div>
-      </div>
-
-      <!-- Signature -->
-      <p>
-        En signant ce reçu, vous adhérez aux conditions Générales du Service Rezk-e, disponibles dans les points de
-        vente agréés Rezk-e et sur notre site : <a href="#">www.fpaygroup.com</a> SA au capital de 15.000.000 dhs - 3,
-        Rue Berne et Bd Zerktouni 1er etage, Casablanca. Tel : <b>05 22 43 45 70</b>
-      </p>
-
-    </div>
-  </div>
   </div>
 
-  <form id="form1">
-    <div id="text">
-      Convert this text to PDF.
-    </div>
-    <input type="button" value="Print Div Contents" id="btnPrint" />
-  </form>
 </body>
 
 </html>
