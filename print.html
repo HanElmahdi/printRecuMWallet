@@ -20,12 +20,45 @@
       document.getElementById('operation-date').value = today;
       document.getElementById('operation-value').value = today;
 
-      // Imprimer
-      $("#btnPrint").live("click", function () {
-
+      function validateFields() {
         // Informations Agence
         var operation = $('#operation').val();
         var agency = $('#agency').val();
+        var city = $('#city').val();
+        // Informations Clients
+        var accountHolder = $('#account-holder').val();
+        var cin = $('#cin').val();
+        var phone = $('#phone').val();
+        // Opération
+        var idTransaction = $('#id-transaction').val();
+        var operationDate = $('#operation-date').val();
+        var valueDate = $('#operation-value').val();
+        var amount = $('#amount').val();
+
+        var errors = [];
+
+        if(!operation) {errors.push('operations');}
+        if(!agency) {errors.push('agency');}
+        if(!city) {errors.push('city');}
+
+        if(!accountHolder) {errors.push('accountHolder');}
+        if(!cin) {errors.push('cin');}
+        if(!phone) {errors.push('phone');}
+
+        if(!idTransaction) {errors.push('idTransaction');}
+        if(!amount) {errors.push('amount');}
+        
+        return errors;
+      }
+
+      // Imprimer
+      $("#btnPrint").click(function () {
+        
+        if(validateFields().length > 0) {return false;}
+
+        // Informations Agence
+        var operation = $('#operation').val();
+        var agency = $('#agency option:selected').text();
         var city = $('#city').val();
 
         // Informations Clients
@@ -154,7 +187,7 @@
           '<img src="fpay.png" class="f-l" alt="">' +
           '<img src="rezke.png" class="f-r" alt="">' +
           '</div>' +
-          '<h5>Reçu de dépôt</h5>' +
+          '<h5>Reçu du ' + operation + '</h5>' +
 
           '<!--  ====== Informations Agence ====== -->' +
 
@@ -210,7 +243,7 @@
           '<img src="fpay.png" class="f-l" alt="">' +
           '<img src="rezke.png" class="f-r" alt="">' +
           '</div>' +
-          '<h5>Reçu de dépôt</h5>' +
+          '<h5>Reçu du ' + operation + '</h5>' +
 
           '<!--  ====== Informations Agence ====== -->' +
 
@@ -329,6 +362,7 @@
             <div class="form-group">
               <label type="text" for="operation">Type d'opération<i>*</i> :</label>
               <select id="operation" required="required">
+                <option value="" disabled selected>-- Choisissez le type d'opérations --</option>
                 <option value="cashin">Cashin</option>
                 <option value="cashout">Cashout</option>
               </select>
@@ -336,6 +370,7 @@
             <div class="form-group">
               <label type="text" for="agency">Agence<i>*</i> :</label>
               <select id="agency" required="required">
+                <option value="" disabled selected>-- Choisissez l'agence --</option>
                 <option value="Agence-1">Agence - 2 Mars</option>
                 <option value="Agence-1">Agence - Ain Sebaa</option>
               </select>
@@ -343,6 +378,7 @@
             <div class="form-group">
               <label type="text" for="city">Ville<i>*</i> :</label>
               <select id="city" required="required">
+                <option value="" disabled selected>-- Choisissez la ville --</option>
                 <script language="javascript">
                   var states = new Array("Agadir", "Al Hoceima", "Azilal", "Beni Mellal", "Ben Slimane", "Boulemane",
                     "Casablanca", "Chaouen", "El Jadida", "El Kelaa des Sraghna", "Er Rachidia", "Essaouira", "Fes",
@@ -371,7 +407,7 @@
             </div>
             <div class="form-group">
               <label type="text" for="phone">N° de téléphone<i>*</i> :</label>
-              <input type="text" id="phone" class="form-control" required="required" value="">
+              <input type="number" id="number" class="form-control" required="required" value="">
             </div>
           </div>
         </div>
