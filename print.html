@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 
 <head>
@@ -7,18 +8,9 @@
   <script type="text/javascript">
     $(document).ready(function () {
       // Set Date
-      var date = new Date();
-
-      var day = date.getDate();
-      var month = date.getMonth() + 1;
-      var year = date.getFullYear();
-
-      if (month < 10) month = "0" + month;
-      if (day < 10) day = "0" + day;
-
-      var today = year + "-" + month + "-" + day;
-      document.getElementById('operation-date').value = today;
-      document.getElementById('operation-value').value = today;
+      $("#operation-date").val(new Date().toJSON().slice(0,16));
+      $("#operation-value").val(new Date().toJSON().slice(0,16));
+      var text_date = $("#operation-value").val().split('T')[0]+' '+$("#operation-value").val().split('T')[1];
 
       function validateFields() {
         // Informations Agence
@@ -43,7 +35,8 @@
 
         if(!accountHolder) {errors.push('accountHolder');}
         if(!cin) {errors.push('cin');}
-        if(!phone) {errors.push('phone');}
+        //if(!phone) {errors.push('phone');}
+	
 
         if(!idTransaction) {errors.push('idTransaction');}
         if(!amount) {errors.push('amount');}
@@ -56,8 +49,14 @@
         
         if(validateFields().length > 0) {return false;}
 
+
+
         // Informations Agence
         var operation = $('#operation').val();
+	if($('#operation').val() == "cashin") title_operation = "d'alimentation";
+	if($('#operation').val() == "cashout") title_operation = "de retrait";
+
+ 	
         var agency = $('#agency option:selected').text();
         var city = $('#city').val();
 
@@ -65,6 +64,7 @@
         var accountHolder = $('#account-holder').val();
         var cin = $('#cin').val();
         var phone = $('#phone').val();
+	if(phone == "") phone = "xxxxxxxxxx";
 
         // Opération
         var idTransaction = $('#id-transaction').val();
@@ -187,7 +187,7 @@
           '<img src="fpay.png" class="f-l" alt="">' +
           '<img src="rezke.png" class="f-r" alt="">' +
           '</div>' +
-          '<h5>Reçu du ' + operation + '</h5>' +
+          '<h5>Reçu ' + title_operation + '</h5>' +
 
           '<!--  ====== Informations Agence ====== -->' +
 
@@ -216,8 +216,8 @@
           '<span class="title">Opération</span>' +
           '<ul>' +
           '<li><b>N° de Transaction :</b> ' + idTransaction + '</li>' +
-          '<li><b>Date opération : </b>' + operationDate + '</li>' +
-          '<li><b>Date de valeur : </b>' + valueDate + '</li>' +
+          '<li><b>Date opération : </b>' + text_date + '</li>' +
+          '<li><b>Date de valeur : </b>' + text_date+ '</li>' +
           '<li><b>Montant : </b>' + amount + ' DH</li>' +
           '<li><b>Frais de service : </b>' + calculateFees(operation, amount) + ' DH</li>' +
           '</ul>' +
@@ -243,7 +243,7 @@
           '<img src="fpay.png" class="f-l" alt="">' +
           '<img src="rezke.png" class="f-r" alt="">' +
           '</div>' +
-          '<h5>Reçu du ' + operation + '</h5>' +
+          '<h5>Reçu ' + title_operation + '</h5>' +
 
           '<!--  ====== Informations Agence ====== -->' +
 
@@ -272,8 +272,8 @@
           '<span class="title">Opération</span>' +
           '<ul>' +
           '<li><b>N° de Transaction :</b> ' + idTransaction + '</li>' +
-          '<li><b>Date opération : </b>' + operationDate + '</li>' +
-          '<li><b>Date de valeur : </b>' + valueDate + '</li>' +
+          '<li><b>Date opération : </b>' + text_date + '</li>' +
+          '<li><b>Date de valeur : </b>' + text_date+ '</li>' +
           '<li><b>Montant : </b>' + amount + ' DH</li>' +
           '<li><b>Frais de service : </b>' + calculateFees(operation, amount) + ' DH</li>' +
           '</ul>' +
@@ -297,11 +297,12 @@
         );
         printWindow.document.write('</style></html>');
         printWindow.document.close();
-        //printWindow.print();
+        printWindow.print();
       });
     });
     // Calculate Fees 
     function calculateFees(operation,amount) {
+
       if (operation == "cashout") {
         if (1 <= amount && amount <= 250) {
           console.log("return  4;");
@@ -371,8 +372,7 @@
               <label type="text" for="agency">Agence<i>*</i> :</label>
               <select id="agency" required="required">
                 <option value="" disabled selected>-- Choisissez l'agence --</option>
-                <option value="Agence-1">Agence - 2 Mars</option>
-                <option value="Agence-1">Agence - Ain Sebaa</option>
+                <option value="Agence-1">Agence Fpay0</option>
               </select>
             </div>
             <div class="form-group">
@@ -407,7 +407,7 @@
             </div>
             <div class="form-group">
               <label type="text" for="phone">N° de téléphone<i>*</i> :</label>
-              <input type="number" id="number" class="form-control" required="required" value="">
+              <input type="number" id="phone" class="form-control" value="">
             </div>
           </div>
         </div>
@@ -422,11 +422,11 @@
             </div>
             <div class="form-group">
               <label type="text" for="operation-date">Date opération<i>*</i> : </label>
-              <input type="date" id="operation-date" class="form-control theDate" required="required">
+              <input type="datetime-local" id="operation-date" class="form-control theDate" required="required">
             </div>
             <div class="form-group">
-              <label type="text" for="operation-value">Date de valeur<i>*</i> : </label>
-              <input type="date" id="operation-value" class="form-control theDate" required="required">
+              <label for="operation-value">Date de valeur<i>*</i> : </label>
+              <input type="datetime-local" id="operation-value" class="form-control theDate" required="required">
             </div>
             <div class="form-group">
               <label type="text" for="amount">Montant<i>*</i> :</label>
